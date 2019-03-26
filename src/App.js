@@ -7,13 +7,18 @@ class App extends Component {
     persons: [
       {
         id: 'asfa1',
-        name: "Pedro",
-        age: 22
+        name: 'Max',
+        age: 28
       },
       {
         id: 'zasaxsc',
-        name: "Rafaela",
+        name: 'Rafaela',
         age: 21
+      },
+      {
+        id: 'xasnxjsnc',
+        name: 'Stephanie',
+        age: 26
       },
     ],
     showPersons: false,
@@ -25,19 +30,19 @@ class App extends Component {
     this.setState({persons: persons});
   };
 
-  nameChangeHandler = (evt) => {
-    this.setState({
-      persons: [
-        {
-          name: evt.target.value,
-          age: 21
-        },
-        {
-          name: "Rafaela",
-          age: 21
-        },
-      ]
+  nameChangeHandler = (evt, id) => {    
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    // The best practice is create a copy of the object or array
+    const person = {...this.state.persons[personIndex]};
+
+    person.name = evt.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   };
 
   togglePersonsHandler = () => {
@@ -67,6 +72,7 @@ class App extends Component {
                 click={() => this.deletePersonHandler(index)}
                 name={person.name}
                 age={person.age}
+                changed={(evt) => this.nameChangeHandler(evt, person.id)}
                 />
             })
           }
